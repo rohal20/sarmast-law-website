@@ -1,0 +1,201 @@
+
+<h2 class="sr-only">Sarmast Law Associates — all practice areas with exact firm content and expandable modals</h2>
+<style>
+  .pa-wrap { padding: 1.5rem 0; }
+  .pa-eyebrow { display:flex; align-items:center; gap:10px; font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#C9A84C; margin-bottom:10px; }
+  .pa-eyebrow::before { content:''; width:28px; height:1px; background:#C9A84C; }
+  .pa-heading { font-family:Georgia,serif; font-size:32px; font-weight:300; line-height:1.1; color:var(--color-text-primary); margin-bottom:8px; }
+  .pa-heading em { font-style:italic; color:#C9A84C; }
+  .pa-sub { font-size:13px; color:var(--color-text-secondary); line-height:1.7; max-width:540px; margin-bottom:28px; }
+
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); border:0.5px solid rgba(201,168,76,0.2); }
+  .card { padding:22px 20px; cursor:pointer; position:relative; overflow:hidden; border-right:0.5px solid rgba(201,168,76,0.18); border-bottom:0.5px solid rgba(201,168,76,0.18); transition:background 0.22s; background:var(--color-background-primary); }
+  .card:nth-child(3n) { border-right:none; }
+  .card:last-child { border-bottom:none; }
+  .card:nth-child(10),.card:nth-child(11),.card:nth-child(12) { border-bottom:none; }
+  .card:hover { background:rgba(201,168,76,0.04); }
+  .card-accent { position:absolute; left:0; top:16px; bottom:16px; width:2px; background:#C9A84C; opacity:0; transition:opacity 0.22s; }
+  .card:hover .card-accent { opacity:1; }
+  .card-num { font-family:Georgia,serif; font-size:26px; font-weight:300; color:rgba(201,168,76,0.15); line-height:1; margin-bottom:9px; }
+  .card-title { font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; color:var(--color-text-primary); margin-bottom:7px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .core-badge { font-size:8px; letter-spacing:0.1em; padding:2px 6px; background:rgba(201,168,76,0.12); color:#C9A84C; border:0.5px solid rgba(201,168,76,0.35); border-radius:2px; white-space:nowrap; }
+  .card-desc { font-size:11px; line-height:1.75; color:var(--color-text-secondary); }
+  .card-cta { margin-top:11px; display:flex; align-items:center; gap:6px; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#C9A84C; opacity:0; transform:translateX(-6px); transition:all 0.22s; }
+  .card:hover .card-cta { opacity:1; transform:translateX(0); }
+  .cta-line { width:16px; height:1px; background:#C9A84C; }
+
+  .overlay { position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.9); display:flex; align-items:center; justify-content:center; padding:16px; opacity:0; pointer-events:none; transition:opacity 0.22s; }
+  .overlay.open { opacity:1; pointer-events:all; }
+  .modal { background:#0D0C0A; border:0.5px solid rgba(201,168,76,0.3); width:100%; max-width:680px; max-height:90vh; overflow-y:auto; position:relative; transform:translateY(18px) scale(0.98); transition:transform 0.3s cubic-bezier(0.22,1,0.36,1); }
+  .overlay.open .modal { transform:translateY(0) scale(1); }
+  .modal-bar { height:2px; background:linear-gradient(90deg,#C9A84C,#E8C97A,#A07C30); }
+  .modal-close { position:absolute; top:14px; right:14px; width:28px; height:28px; border:0.5px solid rgba(201,168,76,0.3); background:none; color:#8A8270; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.18s; font-family:inherit; }
+  .modal-close:hover { color:#C9A84C; border-color:rgba(201,168,76,0.6); }
+  .modal-body { padding:26px 30px 30px; }
+  .modal-eye { display:flex; align-items:center; gap:8px; font-size:10px; letter-spacing:0.26em; text-transform:uppercase; color:#C9A84C; margin-bottom:10px; }
+  .modal-eye::before { content:''; width:22px; height:1px; background:#C9A84C; }
+  .modal-title { font-family:Georgia,serif; font-size:28px; font-weight:300; color:#F5F0E8; line-height:1.1; margin-bottom:10px; }
+  .modal-title em { font-style:italic; color:#C9A84C; }
+  .modal-desc { font-size:12px; line-height:1.9; color:#8A8270; margin-bottom:20px; }
+  .modal-cols { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+  .modal-box { border:0.5px solid rgba(201,168,76,0.2); padding:16px 18px; }
+  .modal-box-lbl { font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:#C9A84C; margin-bottom:12px; }
+  .modal-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
+  .modal-list li { display:flex; align-items:flex-start; gap:8px; font-size:11px; color:#8A8270; line-height:1.65; }
+  .dot { width:5px; height:5px; border-radius:50%; background:#C9A84C; flex-shrink:0; margin-top:5px; }
+  .modal-acts { display:flex; gap:10px; flex-wrap:wrap; }
+  .btn-g { font-size:10px; letter-spacing:0.18em; text-transform:uppercase; font-weight:700; padding:9px 20px; background:#C9A84C; color:#0A0A08; border:none; cursor:pointer; transition:background 0.18s; font-family:inherit; }
+  .btn-g:hover { background:#E8C97A; }
+  .btn-o { font-size:10px; letter-spacing:0.18em; text-transform:uppercase; padding:9px 20px; background:none; color:#F5F0E8; border:0.5px solid rgba(245,240,232,0.3); cursor:pointer; transition:border-color 0.18s; font-family:inherit; }
+  .btn-o:hover { border-color:rgba(245,240,232,0.7); }
+</style>
+
+<div class="pa-wrap">
+  <div class="pa-eyebrow">What We Do</div>
+  <div class="pa-heading">Areas of <em>Legal Practice</em></div>
+  <p class="pa-sub">SLA was established in 2005 and is one of the fast growing law firms in Pakistan, providing legal assistance in the fields of Civil, Labor, NAB, Corporate, Criminal, Revenue, Banking, Customs, and Taxation. Click any area to read more.</p>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="overlay" id="overlay" onclick="maybeClose(event)">
+  <div class="modal" id="modal">
+    <div class="modal-bar"></div>
+    <button class="modal-close" onclick="close()">✕</button>
+    <div class="modal-body" id="mbody"></div>
+  </div>
+</div>
+
+<script>
+const P = [
+  {
+    num:'01', title:'Taxation Law', core:true,
+    short:'Federal, provincial and local tax planning, audit, refunds, and representation before Adjudication Authority, Appellate Tribunal, and High Courts.',
+    desc:'Our tax practice and strategic approach meets client needs on the federal, provincial and local levels. We have deep resources to provide assistance in virtually every area of the broad field of corporate tax law, from planning through audit as well as appeals and litigation when necessary. The firm\'s tax controversy attorneys represent public and significant privately held corporations in judicial and administrative proceedings throughout the country at both the provincial and federal levels. The Tax Department counsels and represents clients on a wide range of tax issues affecting business transactions for corporations, partnerships, joint ventures, sole proprietorships and individuals. Our tax partner, being an experienced tax litigator, offers expertise in negotiation and other dispute resolution techniques. He represents clients before the Adjudication Authority, Appellate Tribunal, and High Courts, and other governmental authorities.',
+    hi:['Replying departmental audit observations on behalf of the clients','Dealing Registration, De-registration and Refunds matters','Filling and preparing monthly tax returns cum payment chalan and refund processing','Filling monthly statement and annual returns under the Income Tax Ordinance 2001'],
+    wy:['Representation before Adjudication Authority, Appellate Tribunal, and High Courts','Expertise in negotiation and other dispute resolution techniques','Assistance in virtually every area of corporate tax law from planning through audit','Counselling on tax issues for corporations, partnerships, joint ventures, sole proprietorships and individuals']
+  },
+  {
+    num:'02', title:'Corporate Law',
+    short:'Corporate law governing creation and existence of corporate entities and commercial transactions. We are professional Corporate Consultants with expertise across the full lifecycle.',
+    desc:'Corporate law is the body of law developed to govern the creation and existence of corporate entities and commercial transactions. We are professional Corporate Consultants, having expertise in Incorporation of Corporate Entities, Preparation & Alteration of Memorandum & Articles of Association, Conversion of Private Ltd into Public Ltd, Prospectus, Allotment and Issue, Transfer of Shares, Debentures & Deposits, Issues of Share Capital & Debentures, Registration of Mortgages & Charges, Meetings & Resolutions, Matters concerning Board of Directors, Mergers, Amalgamation & Takeovers, Winding Up, Establishment of Foreign Corporate Entity, Registration of Liaison Offices, Partnership and Joint Venture Agreements, Start-up and Venture Capital Agreements, Issues at Securities & Exchange, Commercial Contracts & Foreign Collaboration Agreements, Large Scale Corporate Transactions, Formation of Trust, Registration & Regulation of Stock Exchanges, and Asset Management / Investment / Credit Rated Companies.',
+    hi:['Incorporation of Corporate Entity / Company (Public / Private)','Preparation & Alteration of Memorandum & Articles of Association','Mergers, Amalgamation & Takeovers and Winding Up of Corporate Entity','Partnership and Joint Venture Agreements, Start-up and Venture Capital Agreements'],
+    wy:['Establishment of Foreign Corporate Entity and Registration of Liaison Offices','Preparing reply to notices issued by the Securities & Exchange Commission of Pakistan','Filing petitions / suits on behalf of company in courts of law','Asset Management / Investment / Credit Rated Companies structuring and compliance']
+  },
+  {
+    num:'03', title:'Administrative Law',
+    short:'Legal principles governing the administration and regulation of Federal and Provincial governmental authorities — and challenging overreach before courts of law.',
+    desc:'Administrative law covers legal principles governing the administration and regulation of governmental authorities (both Federal and Provincial). Such authorities are vested/delegated certain powers and are under obligations to act as agents for the executives as well as administering justice, keeping under consideration the root requirements of laws and rules made hereunder. Generally, administrative authorities are created to protect a public interest rather than to vindicate private rights. Governmental authorities must act within Constitutional parameters. These and other limits have been codified into statutes such as the Constitution of Pakistan and provincial analogs like the Law of Writs. In any case if the authorities leave their track and/or transgress their powers then the aggrieved person is entitled to approach the Court of Law for his grievance.',
+    hi:['Legal principles governing Federal and Provincial governmental authorities','Constitutional parameters and codified statutory limits on authority','Law of Writs and provincial analogs','Representation of aggrieved persons before Courts of Law'],
+    wy:['Challenge to authorities that transgress their delegated powers','Writ petitions and constitutional applications on behalf of aggrieved parties','Public interest and administrative justice proceedings','Strategic approach to regulatory and administrative compliance']
+  },
+  {
+    num:'04', title:'Alternate Dispute Resolution',
+    short:'Settling disputes outside the courtroom through arbitration, mediation, early neutral evaluation, and conciliation — certified in almost all court systems.',
+    desc:'Alternative Dispute Resolution refers to any means of settling disputes outside of the courtroom. ADR typically includes arbitration, mediation, early neutral evaluation, and conciliation. Some of the means to settle the issue are voluntary and others are mandatory. The two most common forms of ADR are arbitration and mediation. Arbitration is a simplified version of a trial involving no discovery and simplified rules of evidence. Either both sides agree on one arbitrator, or each side selects one arbitrator and the two arbitrators elect the third to comprise a panel. Arbitration hearings usually last only a few hours and the opinions are not public record. Arbitration has long been used in labor, construction, and securities regulation, but is now gaining popularity in other business disputes. The lawyers are engaged in all aspects of alternative dispute resolution, including certified mediation in almost all court systems.',
+    hi:['Arbitration — domestic and international, panel selection and representation','Mediation — certified in almost all court systems in Pakistan','Early neutral evaluation and conciliation services','Both voluntary and mandatory ADR proceedings'],
+    wy:['Cost-effective resolution outside the courtroom','Arbitration hearings with simplified rules of evidence','Certified mediators engaged in all aspects of ADR','Used in labor, construction, securities regulation, and general business disputes']
+  },
+  {
+    num:'05', title:'Banking',
+    short:'Establishment and incorporation of banking companies, recovery of loans, mortgage matters, bank secrecy, negotiable instruments, and banking appeals.',
+    desc:'We deal in establishment, incorporation and share capital in Banking Companies, Cooperative Banks and Financial Institutions, Transactions of Banking Business, Suspension of Business and Winding up of Banking Business, Recovery of Loans, Mortgage Matters, Landlord & Tenant, Debtor & Creditor, Contracts, Bankruptcy, Bank Secrecy Matters and Negotiable Instruments. In addition to this we also file Banking Cases, Banking Appeals in Tribunal and High Court.',
+    hi:['Establishment, incorporation and share capital in Banking Companies and Cooperative Banks','Recovery of Loans and Mortgage Matters','Landlord & Tenant, Debtor & Creditor, Contracts, and Bankruptcy','Bank Secrecy Matters and Negotiable Instruments'],
+    wy:['Filing Banking Cases and Banking Appeals in Tribunal and High Court','Transactions of Banking Business and Suspension of Business matters','Winding up of Banking Business proceedings','Regulatory compliance for Banking Companies and Financial Institutions']
+  },
+  {
+    num:'06', title:'Constitutional Law',
+    short:'Fundamental Rights, security of person, freedom of movement, speech, trade, profession, and religion — petitions before superior courts of Pakistan.',
+    desc:'We deal with the matters of Constitutional Law like cases of Fundamental Rights, Security of Person, Safeguards as to arrest and detention, slavery, forced labor, Protection against retrospective and Double punishment, Self-incrimination, Inviolability of Dignity of person (man, woman and child), Freedom of Movement, Assembly, Association, Trade Business or Profession and Speech, to profess and to manage religious institutions, Safeguard as to educational institutions, and Safeguards against unlawful action by governmental authorities.',
+    hi:['Fundamental Rights and Security of Person','Safeguards as to arrest, detention, slavery, and forced labor','Protection against retrospective punishment, double punishment, and self-incrimination','Freedom of Movement, Assembly, Association, Trade, Business, Profession, and Speech'],
+    wy:['Inviolability of Dignity of person — man, woman, and child','Right to profess religion and manage religious institutions','Safeguards as to educational institutions','Petitions before High Courts and Supreme Court of Pakistan']
+  },
+  {
+    num:'07', title:'Family Law',
+    short:'Succession, marriage, divorce, dower, guardianship, custody, maintenance, Waqfs, trusts, and all family relations handled with care and precision.',
+    desc:'We deal with the matters relating to succession (whether testate or intestate), specially property of Females, Betrothal, Marriage, Divorce, Dower, Adoption, Guardianship, Minority, Family Relations, Wills, Legacies, Gifts, Religious Usages or Institutions including Waqfs, Trusts and Trust Properties and the Rule of Decisions subject to the provisions of any enactment for the time being in force. We also deal in cases regarding Maintenance of Women and Children, Restitution of Conjugal Rights, Custody of Minors and Wife.',
+    hi:['Succession — testate and intestate, including property of Females','Betrothal, Marriage, Divorce, and Dower','Adoption, Guardianship, Minority, and Custody of Minors and Wife','Wills, Legacies, Gifts, Waqfs, Trusts, and Trust Properties'],
+    wy:['Maintenance of Women and Children','Restitution of Conjugal Rights','Religious Usages or Institutions including Waqfs and Trusts','Rule of Decisions under all relevant enactments in force']
+  },
+  {
+    num:'08', title:'Human Rights',
+    short:'Individual human rights claims, extradition, torture, status of women, right of asylum, freedom of movement and speech, and protection of labour rights.',
+    desc:'We deal in the matters of Human Rights as claims of individual cases, extradition, torture, status of woman, Right of Asylum, violation of human rights, rights against exploitation, privileges and immunities of citizenship, freedom of movement and speech, right to profession or occupation, all matters about freedom of Religion, protection as aliens and protection to labour rights.',
+    hi:['Individual human rights claims and extradition matters','Torture, status of women, and Right of Asylum','Violation of human rights and rights against exploitation','Privileges and immunities of citizenship'],
+    wy:['Freedom of movement and speech','Right to profession or occupation','Freedom of Religion — all matters','Protection as aliens and protection to labour rights']
+  },
+  {
+    num:'09', title:'Litigation Matters',
+    short:'All aspects of business litigation — administrative proceedings, trial and appellate courts, arbitration, and ADR forums throughout Pakistan.',
+    desc:'Our litigation practice includes all aspects of business litigation. We regularly represent our clients in administrative proceedings, trial and appellate courts throughout the country, as well as in arbitration and other alternative dispute resolution forums. Our network allows us to provide clients with a cost-effective and coordinated strategy in matters involving multiple jurisdictions.',
+    hi:['All aspects of business litigation','Administrative proceedings throughout Pakistan','Trial and appellate court representation','Arbitration and alternative dispute resolution forums'],
+    wy:['Cost-effective and coordinated strategy across multiple jurisdictions','Regular representation in trial and appellate courts throughout the country','Network to handle matters across all cities of Pakistan','ADR as a complement to full litigation support']
+  },
+  {
+    num:'10', title:'NAB Matters',
+    short:'NAB cases, NAB Bails and NAB Court proceedings — discreet, strategic representation throughout all phases of accountability proceedings.',
+    desc:'We handle NAB cases, NAB Bails and NAB Court Proceedings. Our attorneys bring careful strategy and strict confidentiality to every matter before the National Accountability Bureau, representing clients through inquiries, investigations, voluntary return negotiations, and accountability court trials.',
+    hi:['NAB Cases and full court proceedings','NAB Bail applications and hearings','NAB Court representation at all levels','Inquiry and investigation proceedings'],
+    wy:['Careful strategy and strict confidentiality','Voluntary return and plea bargain negotiations','Pre-arrest bail strategy and case analysis','Full support through investigation and trial phases']
+  },
+  {
+    num:'11', title:'IPO Registration',
+    short:'Registration of Names, Logos, and Brands — filing applications and petitions before Trade Marks, Copyright, Patent, Design Registry, and related forums.',
+    desc:'Dealing with registration of Name, Logos and Brands and filing the applications and petitions before Trade Marks / Copyright / Patent / Design Registry and related other various forums.',
+    hi:['Registration of Names, Logos, and Brands','Trade Marks Registry applications and petitions','Copyright, Patent, and Design Registry filings','Applications before all related forums'],
+    wy:['Protection of intellectual property assets','Filing and follow-up before IPO and related authorities','Advisory on brand protection strategy','Proceedings before Trade Marks / Copyright / Patent / Design registries']
+  },
+  {
+    num:'12', title:'Civil & Criminal',
+    short:'Civil Suits, Appeals, Revisions, Reviews, Miscellaneous Applications. Criminal Trial, Bail, Appeals, Reviews, and Criminal Miscellaneous Applications.',
+    desc:'Filling Civil Suits, Civil Appeals, Civil Revisions, Civil Review, Civil Miscellaneous Applications. Criminal Trial, Criminal Bail, Criminal Appeals, Criminal Review, Criminal Miscellaneous Application.',
+    hi:['Civil Suits, Civil Appeals, Civil Revisions','Civil Review and Civil Miscellaneous Applications','Criminal Trial and Criminal Bail','Criminal Appeals, Criminal Review, Criminal Miscellaneous Applications'],
+    wy:['Full spectrum civil and criminal representation','Trial advocacy at all court levels','Appeals and revision proceedings','Bail applications and emergency criminal matters']
+  },
+  {
+    num:'13', title:'Labour Laws',
+    short:'Filing Suits, Appeals, and Petitions in Labour Court and High Court under various Labour Laws — with full advisory services on any Labour dispute.',
+    desc:'Filling Suits, Appeals and Petitions in the Labour Court as well as High Court under the various Labour Laws and we also render advisory services in relation to any Labour dispute.',
+    hi:['Suits, Appeals, and Petitions in Labour Court','High Court appeals in Labour matters','Representation under all various Labour Laws','Advisory services on Labour disputes'],
+    wy:['Full representation in Labour Court and High Court','Advisory on employment contracts and industrial relations','Dispute resolution and settlement negotiations','Compliance support under Pakistan\'s Labour law framework']
+  },
+]
+
+const grid = document.getElementById('grid')
+P.forEach((p,i) => {
+  const col = i%3
+  const isLastCol = col===2
+  const row = Math.floor(i/3)
+  const totalRows = Math.ceil(P.length/3)
+  const isLastRow = row===totalRows-1
+  const card = document.createElement('div')
+  card.className = 'card'
+  if(isLastCol) card.style.borderRight='none'
+  if(isLastRow) card.style.borderBottom='none'
+  card.innerHTML=`<div class="card-accent"></div><div class="card-num">${p.num}</div><div class="card-title">${p.title}${p.core?'<span class="core-badge">Core Practice</span>':''}</div><div class="card-desc">${p.short}</div><div class="card-cta"><div class="cta-line"></div>Read More</div>`
+  card.onclick=()=>open(i)
+  grid.appendChild(card)
+})
+
+function open(i){
+  const p=P[i]
+  const words=p.title.trim().split(' ')
+  const last=words.pop()
+  const rest=words.join(' ')
+  document.getElementById('mbody').innerHTML=`
+    <div class="modal-eye">Practice Area</div>
+    <div class="modal-title">${rest?rest+' ':''}<em>${last}</em></div>
+    <div class="modal-desc">${p.desc}</div>
+    <div class="modal-cols">
+      <div class="modal-box"><div class="modal-box-lbl">Highlights</div><ul class="modal-list">${p.hi.map(h=>`<li><span class="dot"></span>${h}</li>`).join('')}</ul></div>
+      <div class="modal-box"><div class="modal-box-lbl">What You Get</div><ul class="modal-list">${p.wy.map(w=>`<li><span class="dot"></span>${w}</li>`).join('')}</ul></div>
+    </div>
+    <div class="modal-acts">
+      <button class="btn-g" onclick="sendPrompt('I want to book a consultation for ${p.title} at Sarmast Law Associates')">Book a Consultation ↗</button>
+      <button class="btn-o" onclick="close()">Close</button>
+    </div>`
+  document.getElementById('overlay').classList.add('open')
+}
+function close(){document.getElementById('overlay').classList.remove('open')}
+function maybeClose(e){if(e.target===document.getElementById('overlay'))close()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()})
+</script>
